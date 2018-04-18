@@ -10,12 +10,14 @@
             <td>
                 <input name="username" type="username" value="{{ username }}">
             </td>
+            <td class="error">{{username_error}}</td>
         </tr>
         <tr>
             <td><label for="password">Password</label></td>
             <td>
                 <input name="password" type="password">
             </td>
+            <td class="error">{{password_error}}</td>
         </tr>
     </table>
     <input type="submit" value="Login">

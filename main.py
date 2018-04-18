@@ -1,5 +1,6 @@
 from flask import Flask, request, redirect, render_template, session, flash
 from flask_sqlalchemy import SQLAlchemy
+import re
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -90,21 +91,38 @@ def signup():
         password = request.form['password']
         verify = request.form['verify']
 
-        # TODO - validate user's data
+        username_error = ''
+        password_error = ''
+        verify_error = ''
+
+        if username == '':
+            username_error = "Please enter a username"
+        if re.match("^[a-zA-Z0-9_.-]{3,20}$", username) is None:
+            username_error = "Invalid username"
+        if password == '':
+            password_error = "Please enter a password"
+        if re.match("^[a-zA-Z0-9_.-]{3,20}$", password) is None:
+            password_error = "Invalid password"
+        if verify != password:
+            verify_error = "Passwords do not match"
 
         existing_user = User.query.filter_by(username=username).first()
 
-        if not existing_user:
+        if existing_user:
+            username_error = "User already exists"
+
+        if not password_error and not verify_error and not username_error:
             new_user = User(username, password)
             db.session.add(new_user)
             db.session.commit()
             session['username'] = username
             return redirect('/blog')
         else:
-            # TODO - user better response message
-            return "<h1>User already exists</h1>"
-
-    return render_template('signup.html')
+            
+            return render_template('signup.html',username_error=username_error,
+                password_error=password_error, verify_error=verify_error)
+    else:
+        return render_template('signup.html')
 
 @app.route('/login', methods=['POST','GET'])
 def login():
@@ -112,16 +130,25 @@ def login():
         username = request.form['username']
         password = request.form['password']
         user = User.query.filter_by(username=username).first()
-        if user and user.password == password:
+
+        username_error = ''
+        password_error = ''
+
+        if not user:
+            username_error = "Username does not exist"
+        elif user.password != password:
+            password_error = "Incorrect password"
+
+        if not username_error and not password_error:
             session['username'] = username
             flash("Logged in")
             print(session)
             return redirect('/')
         else:
-            flash("User password incorrect, or user does not exist", 'error')
-            
-
-    return render_template('login.html')
+            return render_template('login.html', username=username, 
+                username_error=username_error, password_error=password_error)
+    else:
+        return render_template('login.html')
 
 @app.route('/logout')
 def logout():
