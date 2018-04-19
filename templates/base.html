@@ -2,38 +2,8 @@
 <html>
     <head>
         <title>{{title}}</title>
-        <style>
-            .error{
-                color:red;
-            }
-            h1{
-                text-align: center;
-            }
-            nav ul {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                overflow: hidden;
-                background-color: #333;
-            }
-
-            nav ul li {
-                float: left;
-            }
-
-            nav ul li a {
-                display: block;
-                color: white;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
-            }
-
-            /* Change the link color to #111 (black) on hover */
-            nav ul li a:hover {
-                background-color: #111;
-            }
-        </style>
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/main.css') }}">
+        
     </head>
     <body>
         <nav>
@@ -60,15 +30,13 @@
              
         </nav>
         {% with messages = get_flashed_messages(with_categories=True) %}
-            <ul>
             {% for category,message in messages %}
-            <li class="{{category}}">{{message}}</li>
+            <p class="{{category}}">{{message}}</p>
             {% endfor %}
-            </ul>
         {% endwith %}
-
+        <div class="content">
         {% block content %}
         {% endblock %}
-
+        </div>
     </body>
 </html>

@@ -5,20 +5,20 @@
 
     {% if blog %}
         <p>{{ blog.body }}</p>
-        <p class="post-author">Written by 
-            <a href="./blog?user={{blog.owner.username}}">
+        <em><p class="byline">Written by 
+                <a href="./blog?user={{blog.owner.username}}">
                 {{blog.owner.username}}
-            </a>
-        </p>
+                </a>
+        </p></em>
     {% else %}
     {% for blog_entry in blogs %}
         <a href="./blog?id={{blog_entry.id}}"><h2>{{ blog_entry.title }}</h2></a>
         <p>{{ blog_entry.body }}</p>
-        <p class="post-author">Written by 
+        <em><p class="byline">Written by 
             <a href="./blog?user={{blog_entry.owner.username}}">
                 {{blog_entry.owner.username}}
             </a>
-        </p>
+        </p></em>
         <hr />
     {% endfor %}
     {% endif %}
