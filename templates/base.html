@@ -1,55 +1,16 @@
 <!doctype html>
 <html>
     <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="{{url_for('static',filename='styles/main.css')}}">
+        
+        
         <title>{{title}}</title>
         
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="{{url_for('static',filename='styles/main.css')}}">
         <style>
-            .error{
-                color:red;
-            }
-            h1{
-                text-align: center;
-            }
-            nav ul {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                overflow: hidden;
-                background-color: #333;
-            }
-
-            nav ul li {
-                float: left;
-            }
-
-            nav ul li a {
-                display: block;
-                color: white;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
-                
-            }
-            a{
-                color:#111;
-            }
-            a:hover{
-                color:#333;
-            }
-            /* Change the link color to #111 (black) on hover */
-            nav ul li a:hover {
-                background-color: #111;
-                color: white;
-            }
-            .content{
-                padding: 2em;
-            }
         </style>
+    
     </head>
     <body>
         <nav>
@@ -76,12 +37,17 @@
         </nav>
         {% with messages = get_flashed_messages(with_categories=True) %}
             {% for category,message in messages %}
-            <p class="{{category}}">{{message}}</p>
+            <div class="alert alert-info alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"></span></button>
+                <p class="{{category}}">{{message}}</p>
+            </div>
             {% endfor %}
         {% endwith %}
         <div class="content">
         {% block content %}
         {% endblock %}
         </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     </body>
 </html>
